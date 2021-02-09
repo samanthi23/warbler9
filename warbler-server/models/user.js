@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+// bcrypt password hashing
 
 const userSchema = new mongoose.Schema({
+  // that they have an email and that it's unique make sure
   email: {
     type: String,
     required: true,
@@ -18,37 +20,14 @@ const userSchema = new mongoose.Schema({
   },
   profileImageUrl: {
     type: String
-  },
-  messages: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message"
-    }
-  ]
-});
-
-userSchema.pre("save", async function(next) {
-  try {
-    if (!this.isModified("password")) {
-      return next();
-    }
-    let hashedPassword = await bcrypt.hash(this.password, 10);
-    this.password = hashedPassword;
-    return next();
-  } catch (err) {
-    return next(err);
   }
 });
 
-userSchema.methods.comparePassword = async function(candidatePassword, next) {
-  try {
-    let isMatch = await bcrypt.compare(candidatePassword, this.password);
-    return isMatch;
-  } catch (err) {
-    return next(err);
-  }
-};
-
+// create a Model
 const User = mongoose.model("User", userSchema);
+
+// export our User Model
+
+// now we can create, query, update, etc...
 
 module.exports = User;
