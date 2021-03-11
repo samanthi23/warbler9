@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   // that they have an email and that it's unique make sure
+  
   email: {
     type: String,
     required: true,
@@ -14,6 +15,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  // would be doing something really bad, would be storing our password in plain text in our database
+  // instead use password hashing
   password: {
     type: String,
     required: true
